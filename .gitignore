@@ -1,0 +1,7 @@
+# Debug folder config
+Debug/*
+!Debug/*.bin
+!Debug/*.elf
+!Debug/*.list
+!Debug/*.map
+Debug/objects.list
