@@ -19,12 +19,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart_SWO_printf.h"
+#include "kfifo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +46,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -86,6 +87,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -93,13 +95,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  DEFINE_KFIFO(usart1_Rxkfifo, uint8_t, 512);
+  uint8_t in[200] = {0};
+  in[0] = 1;
+  uint8_t out[200] = {0};
+  kfifo_in(&usart1_Rxkfifo, in, 200);
+  int number = kfifo_out(&usart1_Rxkfifo, out, 50);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  printf("test\r\n");
-	  HAL_Delay(500);
+	  // printf("number = %d, out = %d\r\n", number, out);
+	  // HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }
