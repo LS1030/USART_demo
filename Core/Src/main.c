@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -86,20 +85,28 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能串口空闲中断
-  /* USER CODE END 2 */
 
+  /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    if (USART1_Rx_flag == HAL_OK)
+    {
+      uint8_t USART1_Data[USART1_RX_DATA_SIZE];
+      uint16_t USART1_Data_Length;
+
+      USART1_Data_Length = kfifo_out_usart1(USART1_Data, USART1_RX_DATA_SIZE);
+      HAL_UART_Transmit(&huart1, USART1_Data, USART1_Data_Length, 100);
+
+      USART1_Rx_flag = HAL_BUSY; //Start USART1 Receive
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
+    }
   }
   /* USER CODE END 3 */
 }
@@ -129,8 +136,7 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -162,7 +168,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM7) {
+  if (htim->Instance == TIM7)
+  {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -182,7 +189,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
