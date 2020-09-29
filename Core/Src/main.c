@@ -89,12 +89,12 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能串口空闲中断
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能串口空闲中断
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  // HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size);
+  HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size);
   while (1)
   {
     /* USER CODE END WHILE */

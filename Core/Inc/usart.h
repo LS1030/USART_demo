@@ -34,16 +34,16 @@
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
-// #define USART1_RxBuff_Size 256
+#define USART1_RxBuff_Size 256
 #define USART1_RxKfifo_Size 512
-// extern uint8_t USART1_RxBuff[USART1_RxBuff_Size];
+extern uint8_t USART1_RxBuff[USART1_RxBuff_Size];
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-// void USER_UART_IRQHandler(UART_HandleTypeDef *huart);
-// void USAR_UART_IDLECallback(UART_HandleTypeDef *huart);
+void USER_UART_IRQHandler(UART_HandleTypeDef *huart);
+void USAR_UART_IDLECallback(UART_HandleTypeDef *huart);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

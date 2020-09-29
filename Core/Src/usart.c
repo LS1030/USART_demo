@@ -21,8 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-// uint8_t USART1_RxBuff[USART1_RxBuff_Size];
-
+uint8_t USART1_RxBuff[USART1_RxBuff_Size];
 DEFINE_KFIFO(usart1_Rxkfifo, uint8_t, USART1_RxKfifo_Size);
 /* USER CODE END 0 */
 
@@ -131,47 +130,47 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
 
 /* USER CODE BEGIN 1 */
 
-// /**
-//   * @brief  UART IRQHandler for IDLE Interrupt.
-//   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
-//   *                the configuration information for the specified UART module.
-//   * @retval None
-//   */
-// void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
-// {
-//   if (__HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE) != RESET)
-//   {
-//     __HAL_UART_CLEAR_IDLEFLAG(huart);
-//     USAR_UART_IDLECallback(huart);
-//   }
-// }
+ /**
+   * @brief  UART IRQHandler for IDLE Interrupt.
+   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
+   *                the configuration information for the specified UART module.
+   * @retval None
+   */
+ void USER_UART_IRQHandler(UART_HandleTypeDef *huart)
+ {
+   if (__HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE) != RESET)
+   {
+     __HAL_UART_CLEAR_IDLEFLAG(huart);
+     USAR_UART_IDLECallback(huart);
+   }
+ }
 
-// /**
-//   * @brief  UART IDLE completed callbacks.
-//   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
-//   *                the configuration information for the specified UART module.
-//   * @retval None
-//   */
-// void USAR_UART_IDLECallback(UART_HandleTypeDef *huart)
-// {
-//   if (huart->Instance == USART1)
-//   {
-//     HAL_UART_DMAStop(&huart1); // 停止本次DMA传输
+ /**
+   * @brief  UART IDLE completed callbacks.
+   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
+   *                the configuration information for the specified UART module.
+   * @retval None
+   */
+ void USAR_UART_IDLECallback(UART_HandleTypeDef *huart)
+ {
+   if (huart->Instance == USART1)
+   {
+     HAL_UART_DMAStop(&huart1); // 停止本次DMA传输
 
-//     // 测试函数：将接收到的数据打印出去
-//     uint16_t UART_DMA_RxData_Length = USART1_RxBuff_Size - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); // 计算接收到的数据长度
-//     HAL_UART_Transmit(&huart1, USART1_RxBuff, UART_DMA_RxData_Length, 1000);
+     // 测试函数：将接收到的数据打印出去
+     uint16_t UART_DMA_RxData_Length = USART1_RxBuff_Size - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx); // 计算接收到的数据长度
 
-//     // printf("Receive Data(length = %d): ", UART_DMA_RxData_Length);
-//     uint8_t UART_RxData[UART_DMA_RxData_Length];
-//     kfifo_in(&usart1_Rxkfifo, USART1_RxBuff, UART_DMA_RxData_Length);
-//     kfifo_out(&usart1_Rxkfifo, UART_RxData, UART_DMA_RxData_Length);
+     // printf("Receive Data(length = %d): ", UART_DMA_RxData_Length);
+     kfifo_in(&usart1_Rxkfifo, USART1_RxBuff, UART_DMA_RxData_Length);
+     uint8_t UART_RxData[UART_DMA_RxData_Length];
+     kfifo_out(&usart1_Rxkfifo, UART_RxData, UART_DMA_RxData_Length);
+     HAL_UART_Transmit(&huart1, USART1_RxBuff, UART_DMA_RxData_Length, 1000);
 
-//     memset(USART1_RxBuff, 0, USART1_RxBuff_Size); // 清零接收缓冲区
+     memset(USART1_RxBuff, 0, USART1_RxBuff_Size); // 清零接收缓冲区
 
-//     HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size); // 重启DMA传输 每次255字节数据
-//   }
-// }
+     HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size); // 重启DMA传输 每次255字节数据
+   }
+ }
 
 /* USER CODE END 1 */
 
