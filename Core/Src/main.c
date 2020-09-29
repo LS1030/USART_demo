@@ -26,7 +26,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usart_SWO_printf.h"
-#include "kfifo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,24 +89,17 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  // __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE); //使能串口空闲中断
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  DEFINE_KFIFO(usart1_Rxkfifo, uint8_t, 512);
-  uint8_t in[200] = {0};
-  in[0] = 1;
-  uint8_t out[200] = {0};
-  kfifo_in(&usart1_Rxkfifo, in, 200);
-  int number = kfifo_out(&usart1_Rxkfifo, out, 50);
+  // HAL_UART_Receive_DMA(&huart1, (uint8_t *)USART1_RxBuff, USART1_RxBuff_Size);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // printf("number = %d, out = %d\r\n", number, out);
-	  // HAL_Delay(500);
   }
   /* USER CODE END 3 */
 }

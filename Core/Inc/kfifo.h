@@ -289,15 +289,15 @@ __kfifo_int_must_check_helper(int val)
  * @fifo: address of the fifo to be used
  * @lock: spinlock to be used for locking
  */
-#define kfifo_is_empty_spinlocked(fifo, lock) \
-({ \
-	unsigned long __flags; \
-	bool __ret; \
-	spin_lock_irqsave(lock, __flags); \
-	__ret = kfifo_is_empty(fifo); \
-	spin_unlock_irqrestore(lock, __flags); \
-	__ret; \
-})
+// #define kfifo_is_empty_spinlocked(fifo, lock) \
+// ({ \
+// 	unsigned long __flags; \
+// 	bool __ret; \
+// 	spin_lock_irqsave(lock, __flags); \
+// 	__ret = kfifo_is_empty(fifo); \
+// 	spin_unlock_irqrestore(lock, __flags); \
+// 	__ret; \
+// })
 
 /**
  * kfifo_is_empty_spinlocked_noirqsave  - returns true if the fifo is empty
@@ -305,14 +305,14 @@ __kfifo_int_must_check_helper(int val)
  * @fifo: address of the fifo to be used
  * @lock: spinlock to be used for locking
  */
-#define kfifo_is_empty_spinlocked_noirqsave(fifo, lock) \
-({ \
-	bool __ret; \
-	spin_lock(lock); \
-	__ret = kfifo_is_empty(fifo); \
-	spin_unlock(lock); \
-	__ret; \
-})
+// #define kfifo_is_empty_spinlocked_noirqsave(fifo, lock) \
+// ({ \
+// 	bool __ret; \
+// 	spin_lock(lock); \
+// 	__ret = kfifo_is_empty(fifo); \
+// 	spin_unlock(lock); \
+// 	__ret; \
+// })
 
 /**
  * kfifo_is_full - returns true if the fifo is full
@@ -384,28 +384,28 @@ __kfifo_uint_must_check_helper( \
  * The fifo will be release with kfifo_free().
  * Return 0 if no error, otherwise an error code.
  */
-#define kfifo_alloc(fifo, size, gfp_mask) \
-__kfifo_int_must_check_helper( \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	__is_kfifo_ptr(__tmp) ? \
-	__kfifo_alloc(__kfifo, size, sizeof(*__tmp->type), gfp_mask) : \
-	-EINVAL; \
-}) \
-)
+// #define kfifo_alloc(fifo, size, gfp_mask) \
+// __kfifo_int_must_check_helper( \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	__is_kfifo_ptr(__tmp) ? \
+// 	__kfifo_alloc(__kfifo, size, sizeof(*__tmp->type), gfp_mask) : \
+// 	-EINVAL; \
+// }) \
+// )
 
 /**
  * kfifo_free - frees the fifo
  * @fifo: the fifo to be freed
  */
-#define kfifo_free(fifo) \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	if (__is_kfifo_ptr(__tmp)) \
-		__kfifo_free(__kfifo); \
-})
+// #define kfifo_free(fifo) \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	if (__is_kfifo_ptr(__tmp)) \
+// 		__kfifo_free(__kfifo); \
+// })
 
 /**
  * kfifo_init - initialize a fifo using a preallocated buffer
@@ -575,15 +575,15 @@ __kfifo_uint_must_check_helper( \
  * This macro copies the given values buffer into the fifo and returns the
  * number of copied elements.
  */
-#define	kfifo_in_spinlocked(fifo, buf, n, lock) \
-({ \
-	unsigned long __flags; \
-	unsigned int __ret; \
-	spin_lock_irqsave(lock, __flags); \
-	__ret = kfifo_in(fifo, buf, n); \
-	spin_unlock_irqrestore(lock, __flags); \
-	__ret; \
-})
+// #define	kfifo_in_spinlocked(fifo, buf, n, lock) \
+// ({ \
+// 	unsigned long __flags; \
+// 	unsigned int __ret; \
+// 	spin_lock_irqsave(lock, __flags); \
+// 	__ret = kfifo_in(fifo, buf, n); \
+// 	spin_unlock_irqrestore(lock, __flags); \
+// 	__ret; \
+// })
 
 /**
  * kfifo_in_spinlocked_noirqsave - put data into fifo using a spinlock for
@@ -596,18 +596,18 @@ __kfifo_uint_must_check_helper( \
  * This is a variant of kfifo_in_spinlocked() but uses spin_lock/unlock()
  * for locking and doesn't disable interrupts.
  */
-#define kfifo_in_spinlocked_noirqsave(fifo, buf, n, lock) \
-({ \
-	unsigned int __ret; \
-	spin_lock(lock); \
-	__ret = kfifo_in(fifo, buf, n); \
-	spin_unlock(lock); \
-	__ret; \
-})
+// #define kfifo_in_spinlocked_noirqsave(fifo, buf, n, lock) \
+// ({ \
+// 	unsigned int __ret; \
+// 	spin_lock(lock); \
+// 	__ret = kfifo_in(fifo, buf, n); \
+// 	spin_unlock(lock); \
+// 	__ret; \
+// })
 
 /* alias for kfifo_in_spinlocked, will be removed in a future release */
-#define kfifo_in_locked(fifo, buf, n, lock) \
-		kfifo_in_spinlocked(fifo, buf, n, lock)
+// #define kfifo_in_locked(fifo, buf, n, lock) \
+// 		kfifo_in_spinlocked(fifo, buf, n, lock)
 
 /**
  * kfifo_out - get data from the fifo
@@ -645,17 +645,17 @@ __kfifo_uint_must_check_helper( \
  * This macro get the data from the fifo and return the numbers of elements
  * copied.
  */
-#define	kfifo_out_spinlocked(fifo, buf, n, lock) \
-__kfifo_uint_must_check_helper( \
-({ \
-	unsigned long __flags; \
-	unsigned int __ret; \
-	spin_lock_irqsave(lock, __flags); \
-	__ret = kfifo_out(fifo, buf, n); \
-	spin_unlock_irqrestore(lock, __flags); \
-	__ret; \
-}) \
-)
+// #define	kfifo_out_spinlocked(fifo, buf, n, lock) \
+// __kfifo_uint_must_check_helper( \
+// ({ \
+// 	unsigned long __flags; \
+// 	unsigned int __ret; \
+// 	spin_lock_irqsave(lock, __flags); \
+// 	__ret = kfifo_out(fifo, buf, n); \
+// 	spin_unlock_irqrestore(lock, __flags); \
+// 	__ret; \
+// }) \
+// )
 
 /**
  * kfifo_out_spinlocked_noirqsave - get data from the fifo using a spinlock
@@ -668,20 +668,20 @@ __kfifo_uint_must_check_helper( \
  * This is a variant of kfifo_out_spinlocked() which uses spin_lock/unlock()
  * for locking and doesn't disable interrupts.
  */
-#define kfifo_out_spinlocked_noirqsave(fifo, buf, n, lock) \
-__kfifo_uint_must_check_helper( \
-({ \
-	unsigned int __ret; \
-	spin_lock(lock); \
-	__ret = kfifo_out(fifo, buf, n); \
-	spin_unlock(lock); \
-	__ret; \
-}) \
-)
+// #define kfifo_out_spinlocked_noirqsave(fifo, buf, n, lock) \
+// __kfifo_uint_must_check_helper( \
+// ({ \
+// 	unsigned int __ret; \
+// 	spin_lock(lock); \
+// 	__ret = kfifo_out(fifo, buf, n); \
+// 	spin_unlock(lock); \
+// 	__ret; \
+// }) \
+// )
 
 /* alias for kfifo_out_spinlocked, will be removed in a future release */
-#define kfifo_out_locked(fifo, buf, n, lock) \
-		kfifo_out_spinlocked(fifo, buf, n, lock)
+// #define kfifo_out_locked(fifo, buf, n, lock) \
+// 		kfifo_out_spinlocked(fifo, buf, n, lock)
 
 /**
  * kfifo_from_user - puts some data from user space into the fifo
@@ -696,20 +696,20 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macro.
  */
-#define	kfifo_from_user(fifo, from, len, copied) \
-__kfifo_uint_must_check_helper( \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	const void __user *__from = (from); \
-	unsigned int __len = (len); \
-	unsigned int *__copied = (copied); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	(__recsize) ? \
-	__kfifo_from_user_r(__kfifo, __from, __len,  __copied, __recsize) : \
-	__kfifo_from_user(__kfifo, __from, __len, __copied); \
-}) \
-)
+// #define	kfifo_from_user(fifo, from, len, copied) \
+// __kfifo_uint_must_check_helper( \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	const void __user *__from = (from); \
+// 	unsigned int __len = (len); \
+// 	unsigned int *__copied = (copied); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	(__recsize) ? \
+// 	__kfifo_from_user_r(__kfifo, __from, __len,  __copied, __recsize) : \
+// 	__kfifo_from_user(__kfifo, __from, __len, __copied); \
+// }) \
+// )
 
 /**
  * kfifo_to_user - copies data from the fifo into user space
@@ -724,20 +724,20 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macro.
  */
-#define	kfifo_to_user(fifo, to, len, copied) \
-__kfifo_uint_must_check_helper( \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	void __user *__to = (to); \
-	unsigned int __len = (len); \
-	unsigned int *__copied = (copied); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	(__recsize) ? \
-	__kfifo_to_user_r(__kfifo, __to, __len, __copied, __recsize) : \
-	__kfifo_to_user(__kfifo, __to, __len, __copied); \
-}) \
-)
+// #define	kfifo_to_user(fifo, to, len, copied) \
+// __kfifo_uint_must_check_helper( \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	void __user *__to = (to); \
+// 	unsigned int __len = (len); \
+// 	unsigned int *__copied = (copied); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	(__recsize) ? \
+// 	__kfifo_to_user_r(__kfifo, __to, __len, __copied, __recsize) : \
+// 	__kfifo_to_user(__kfifo, __to, __len, __copied); \
+// }) \
+// )
 
 /**
  * kfifo_dma_in_prepare - setup a scatterlist for DMA input
@@ -752,18 +752,18 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macros.
  */
-#define	kfifo_dma_in_prepare(fifo, sgl, nents, len) \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	struct scatterlist *__sgl = (sgl); \
-	int __nents = (nents); \
-	unsigned int __len = (len); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	(__recsize) ? \
-	__kfifo_dma_in_prepare_r(__kfifo, __sgl, __nents, __len, __recsize) : \
-	__kfifo_dma_in_prepare(__kfifo, __sgl, __nents, __len); \
-})
+// #define	kfifo_dma_in_prepare(fifo, sgl, nents, len) \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	struct scatterlist *__sgl = (sgl); \
+// 	int __nents = (nents); \
+// 	unsigned int __len = (len); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	(__recsize) ? \
+// 	__kfifo_dma_in_prepare_r(__kfifo, __sgl, __nents, __len, __recsize) : \
+// 	__kfifo_dma_in_prepare(__kfifo, __sgl, __nents, __len); \
+// })
 
 /**
  * kfifo_dma_in_finish - finish a DMA IN operation
@@ -776,17 +776,17 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macros.
  */
-#define kfifo_dma_in_finish(fifo, len) \
-(void)({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	unsigned int __len = (len); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	if (__recsize) \
-		__kfifo_dma_in_finish_r(__kfifo, __len, __recsize); \
-	else \
-		__kfifo->in += __len / sizeof(*__tmp->type); \
-})
+// #define kfifo_dma_in_finish(fifo, len) \
+// (void)({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	unsigned int __len = (len); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	if (__recsize) \
+// 		__kfifo_dma_in_finish_r(__kfifo, __len, __recsize); \
+// 	else \
+// 		__kfifo->in += __len / sizeof(*__tmp->type); \
+// })
 
 /**
  * kfifo_dma_out_prepare - setup a scatterlist for DMA output
@@ -803,18 +803,18 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macros.
  */
-#define	kfifo_dma_out_prepare(fifo, sgl, nents, len) \
-({ \
-	typeof((fifo) + 1) __tmp = (fifo);  \
-	struct scatterlist *__sgl = (sgl); \
-	int __nents = (nents); \
-	unsigned int __len = (len); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	(__recsize) ? \
-	__kfifo_dma_out_prepare_r(__kfifo, __sgl, __nents, __len, __recsize) : \
-	__kfifo_dma_out_prepare(__kfifo, __sgl, __nents, __len); \
-})
+// #define	kfifo_dma_out_prepare(fifo, sgl, nents, len) \
+// ({ \
+// 	typeof((fifo) + 1) __tmp = (fifo);  \
+// 	struct scatterlist *__sgl = (sgl); \
+// 	int __nents = (nents); \
+// 	unsigned int __len = (len); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	(__recsize) ? \
+// 	__kfifo_dma_out_prepare_r(__kfifo, __sgl, __nents, __len, __recsize) : \
+// 	__kfifo_dma_out_prepare(__kfifo, __sgl, __nents, __len); \
+// })
 
 /**
  * kfifo_dma_out_finish - finish a DMA OUT operation
@@ -827,17 +827,17 @@ __kfifo_uint_must_check_helper( \
  * Note that with only one concurrent reader and one concurrent
  * writer, you don't need extra locking to use these macros.
  */
-#define kfifo_dma_out_finish(fifo, len) \
-(void)({ \
-	typeof((fifo) + 1) __tmp = (fifo); \
-	unsigned int __len = (len); \
-	const size_t __recsize = sizeof(*__tmp->rectype); \
-	struct __kfifo *__kfifo = &__tmp->kfifo; \
-	if (__recsize) \
-		__kfifo_dma_out_finish_r(__kfifo, __recsize); \
-	else \
-		__kfifo->out += __len / sizeof(*__tmp->type); \
-})
+// #define kfifo_dma_out_finish(fifo, len) \
+// (void)({ \
+// 	typeof((fifo) + 1) __tmp = (fifo); \
+// 	unsigned int __len = (len); \
+// 	const size_t __recsize = sizeof(*__tmp->rectype); \
+// 	struct __kfifo *__kfifo = &__tmp->kfifo; \
+// 	if (__recsize) \
+// 		__kfifo_dma_out_finish_r(__kfifo, __recsize); \
+// 	else \
+// 		__kfifo->out += __len / sizeof(*__tmp->type); \
+// })
 
 /**
  * kfifo_out_peek - gets some data from the fifo
