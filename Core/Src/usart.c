@@ -123,7 +123,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   {
     static uint16_t USART1_Rx_Number = 0;
 
-    if (USART1_Rx_flag == HAL_BUSY)
+    if (USART1_Rx_flag != HAL_OK)
     {
       if (USART1_Rx_Number != 0) //Receive the following data
       {
@@ -136,17 +136,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
           USART1_Rx_flag = HAL_OK;
           return; // if the last data is 0xA5, the function should be return
         }
-        else
-        {
-          HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
-        }
       }
       else if (USART1_Rx_temp == 0xA5 && USART1_Rx_Number == 0) //Receive the first data
       {
         kfifo_in(&usart1_Rxkfifo, &USART1_Rx_temp, 1);
         USART1_Rx_Number = 1;
-        HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
       }
+      else
+      {
+    	  USART1_Rx_flag = HAL_ERROR;
+      }
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
     }
   }
 }
