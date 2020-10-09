@@ -798,9 +798,9 @@ void MX_USART1_UART_Init(void)
  8000548:	4b11      	ldr	r3, [pc, #68]	; (8000590 <MX_USART1_UART_Init+0x4c>)
  800054a:	4a12      	ldr	r2, [pc, #72]	; (8000594 <MX_USART1_UART_Init+0x50>)
  800054c:	601a      	str	r2, [r3, #0]
-  huart1.Init.BaudRate = 9600;
+  huart1.Init.BaudRate = 115200;
  800054e:	4b10      	ldr	r3, [pc, #64]	; (8000590 <MX_USART1_UART_Init+0x4c>)
- 8000550:	f44f 5216 	mov.w	r2, #9600	; 0x2580
+ 8000550:	f44f 32e1 	mov.w	r2, #115200	; 0x1c200
  8000554:	605a      	str	r2, [r3, #4]
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
  8000556:	4b0e      	ldr	r3, [pc, #56]	; (8000590 <MX_USART1_UART_Init+0x4c>)
@@ -836,6 +836,7 @@ void MX_USART1_UART_Init(void)
     Error_Handler();
  8000586:	f7ff ff09 	bl	800039c <Error_Handler>
   }
+
 }
  800058a:	bf00      	nop
  800058c:	bd80      	pop	{r7, pc}
@@ -845,7 +846,7 @@ void MX_USART1_UART_Init(void)
 
 08000598 <HAL_UART_MspInit>:
 
-void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
+void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 {
  8000598:	b580      	push	{r7, lr}
  800059a:	b088      	sub	sp, #32
@@ -859,16 +860,16 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
  80005a8:	605a      	str	r2, [r3, #4]
  80005aa:	609a      	str	r2, [r3, #8]
  80005ac:	60da      	str	r2, [r3, #12]
-  if (uartHandle->Instance == USART1)
+  if(uartHandle->Instance==USART1)
  80005ae:	687b      	ldr	r3, [r7, #4]
  80005b0:	681b      	ldr	r3, [r3, #0]
  80005b2:	4a20      	ldr	r2, [pc, #128]	; (8000634 <HAL_UART_MspInit+0x9c>)
  80005b4:	4293      	cmp	r3, r2
  80005b6:	d139      	bne.n	800062c <HAL_UART_MspInit+0x94>
   {
-    /* USER CODE BEGIN USART1_MspInit 0 */
+  /* USER CODE BEGIN USART1_MspInit 0 */
 
-    /* USER CODE END USART1_MspInit 0 */
+  /* USER CODE END USART1_MspInit 0 */
     /* USART1 clock enable */
     __HAL_RCC_USART1_CLK_ENABLE();
  80005b8:	4b1f      	ldr	r3, [pc, #124]	; (8000638 <HAL_UART_MspInit+0xa0>)
@@ -936,9 +937,9 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
     HAL_NVIC_EnableIRQ(USART1_IRQn);
  8000626:	2025      	movs	r0, #37	; 0x25
  8000628:	f000 f985 	bl	8000936 <HAL_NVIC_EnableIRQ>
-    /* USER CODE BEGIN USART1_MspInit 1 */
+  /* USER CODE BEGIN USART1_MspInit 1 */
 
-    /* USER CODE END USART1_MspInit 1 */
+  /* USER CODE END USART1_MspInit 1 */
   }
 }
  800062c:	bf00      	nop
