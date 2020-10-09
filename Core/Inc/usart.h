@@ -35,18 +35,18 @@ extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
 #define USART1_RX_DATA_SIZE 256
-// #define USART1_RxBuff_Size 256
-#define USART1_RXKFIFO_SIZE 512
+#define USART1_RxBuff_Size 256
+// #define USART1_RXKFIFO_SIZE 512
 
 extern uint8_t USART1_Rx_temp;
-// extern uint8_t USART1_RxBuff[USART1_RxBuff_Size];
+extern uint8_t USART1_RxBuff[USART1_RxBuff_Size];
 extern HAL_StatusTypeDef USART1_Rx_flag;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-uint32_t kfifo_out_usart1(uint8_t* buff, uint32_t size);
+// uint32_t kfifo_out_usart1(uint8_t* buff, uint32_t size);
 // void USER_UART_IRQHandler(UART_HandleTypeDef *huart);
 // void USAR_UART_IDLECallback(UART_HandleTypeDef *huart);
 /* USER CODE END Prototypes */

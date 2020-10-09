@@ -99,11 +99,11 @@ int main(void)
     /* USER CODE BEGIN 3 */
     if (USART1_Rx_flag == HAL_OK)
     {
-      uint8_t USART1_Data[USART1_RX_DATA_SIZE];
-      uint16_t USART1_Data_Length;
+      // uint8_t USART1_Data[USART1_RX_DATA_SIZE];
+      // uint16_t USART1_Data_Length;
 
-      USART1_Data_Length = kfifo_out_usart1(USART1_Data, USART1_RX_DATA_SIZE);
-      HAL_UART_Transmit(&huart1, USART1_Data, USART1_Data_Length, 500);
+      // USART1_Data_Length = kfifo_out_usart1(USART1_Data, USART1_RX_DATA_SIZE);
+      HAL_UART_Transmit(&huart1, USART1_RxBuff, USART1_RX_DATA_SIZE, 500);
 
       USART1_Rx_flag = HAL_BUSY; //Start USART1 Receive
       HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 1);
