@@ -146,7 +146,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
       {
     	  USART1_Rx_flag = HAL_ERROR;
       }
-      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 1);
     }
   }
 }

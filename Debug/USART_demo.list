@@ -832,8 +832,8 @@ int main(void)
  800066a:	4b04      	ldr	r3, [pc, #16]	; (800067c <main+0x50>)
  800066c:	2202      	movs	r2, #2
  800066e:	701a      	strb	r2, [r3, #0]
-      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
- 8000670:	2264      	movs	r2, #100	; 0x64
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 1);
+ 8000670:	2201      	movs	r2, #1
  8000672:	4904      	ldr	r1, [pc, #16]	; (8000684 <main+0x58>)
  8000674:	4802      	ldr	r0, [pc, #8]	; (8000680 <main+0x54>)
  8000676:	f001 fdcc 	bl	8002212 <HAL_UART_Receive_IT>
@@ -1729,8 +1729,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
  8000ab8:	2201      	movs	r2, #1
  8000aba:	701a      	strb	r2, [r3, #0]
       }
-      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
- 8000abc:	2264      	movs	r2, #100	; 0x64
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 1);
+ 8000abc:	2201      	movs	r2, #1
  8000abe:	4907      	ldr	r1, [pc, #28]	; (8000adc <HAL_UART_RxCpltCallback+0xe8>)
  8000ac0:	4807      	ldr	r0, [pc, #28]	; (8000ae0 <HAL_UART_RxCpltCallback+0xec>)
  8000ac2:	f001 fba6 	bl	8002212 <HAL_UART_Receive_IT>

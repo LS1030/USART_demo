@@ -105,7 +105,7 @@ int main(void)
       HAL_UART_Transmit(&huart1, USART1_Data, USART1_Data_Length, 100);
 
       USART1_Rx_flag = HAL_BUSY; //Start USART1 Receive
-      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 100);
+      HAL_UART_Receive_IT(&huart1, &USART1_Rx_temp, 1);
     }
   }
   /* USER CODE END 3 */
